@@ -14,7 +14,6 @@
         "https://servicedesk.privatbank.ua/*"
       ],
       "js": [
-        "js/jquery.js",
         "js/injection.js"
       ],
       "run_at": "document_end"
