@@ -4,7 +4,7 @@
     document.getElementById('problem_create').addEventListener("click", function () {
 
 //Очищаем локальное хранилище
-        clienlocalStorage();
+        cliensessionStorage();
 
 //Ожидаем постройки DOM модального окна
         setTimeout(function () {
@@ -16,32 +16,34 @@
 
 //Устанавливаем обработчик на кнопку Перевести
             document.getElementById('translater').addEventListener("click", function () {
-                main(localStorage["master"] || "ru")
+                delete document.querySelectorAll('.modal-footer')[0]
+                main(sessionStorage["master"] || "ru")
             });
 
+
 //Вешаем обработчики событий на кнопки закрытия модального окна для очистки хранилища
-            document.querySelectorAll('.modal-footer')[0].children[1].addEventListener("click", clienlocalStorage);
-            document.querySelectorAll('.modal-footer')[0].children[2].addEventListener("click", clienlocalStorage);
-            document.querySelectorAll('.modal-header')[0].children[0].addEventListener("click", clienlocalStorage);
+            document.querySelectorAll('.modal-footer')[0].children[1].addEventListener("click", cliensessionStorage);
+            document.querySelectorAll('.modal-footer')[0].children[2].addEventListener("click", cliensessionStorage);
+            document.querySelectorAll('.modal-header')[0].children[0].addEventListener("click", cliensessionStorage);
         }, 100)
     });
 
 //Выбираем источник получения данных для вывода
     function main(master) {
         if (master === "ru") {
-            localStorage["translit"] = document.getElementById('create-info').value;
+            sessionStorage["translit"] = document.getElementById('create-info').value;
             requestTrans(document.getElementById('create-info').value).then(function (response) {
                 return JSON.parse(response).trans
             }).then(function (response) {
-                localStorage["master"] = "uk";
+                sessionStorage["master"] = "uk";
                 backResult(response)
             });
         } else if (master === "uk") {
-            if(localStorage["translit"]){
-                localStorage["master"] = "ru";
-                backResult(localStorage["translit"]);
+            if(sessionStorage["translit"]){
+                sessionStorage["master"] = "ru";
+                backResult(sessionStorage["translit"]);
             } else {
-                alert("Архив не найден в localStorage")
+                alert("Архив не найден в sessionStorage")
             }
         } else {
             alert("Ошибка выбора языка")
@@ -74,10 +76,10 @@
         document.getElementById('create-info').value = text;
     }
 
-//удаляет все элементы из localStorage
-    function clienlocalStorage(){
-        delete localStorage["translit"];
-        delete localStorage["master"];
+//удаляет все элементы из sessionStorage
+    function cliensessionStorage(){
+        delete sessionStorage["translit"];
+        delete sessionStorage["master"];
     }
 
 
