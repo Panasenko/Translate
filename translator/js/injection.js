@@ -3,12 +3,16 @@
 //Назначаем обработчик на кнопку добавления ИП
     document.getElementById('problem_create').addEventListener("click", function () {
 
+//Очищаем локальное хранилище
+        clienlocalStorage();
+
 //Ожидаем постройки DOM модального окна
         setTimeout(function () {
 
 //Вставляем кнопку переводчика
             var modal = document.getElementsByClassName('modal-footer');
-            modal[0].innerHTML =  "<button id=\"translater\" type=\"button\" class=\"btn btn-info\">Перевести</button>" + modal[0].innerHTML;
+            var buttonTranslit = "<button id=\"translater\" type=\"button\" class=\"btn btn-info\">Перевести</button>";
+            modal[0].innerHTML = buttonTranslit + modal[0].innerHTML;
 
 //Устанавливаем обработчик на кнопку Перевести
             document.getElementById('translater').addEventListener("click", function () {
@@ -43,7 +47,7 @@
             alert("Ошибка выбора языка")
         }
     }
-    
+
 //Вызываем API Google переводчика
     function requestTrans(text){
         var requestURL = "https://script.google.com/macros/s/AKfycbys4Q7s43XcosBx5hKmGPVhWOyrl5_cRKXe2YCBvYWB3EZ9RH0P/exec?text=" + text;
